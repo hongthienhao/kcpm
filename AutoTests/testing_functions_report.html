@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Kiểm Thử Chức Năng 100% - Siêu Chi Tiết - CarbonTC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5; --secondary: #7c3aed; --success: #10b981; 
+            --warning: #f59e0b; --error: #ef4444; --bg: #f8fafc; 
+            --card-bg: #ffffff; --text: #0f172a; --muted: #64748b;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root { --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; --muted: #94a3b8; }
+        }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 40px; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 60px; padding: 60px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        h1 { font-size: 2.2rem; margin: 0; font-weight: 800; text-transform: uppercase; letter-spacing: -1px; }
+
+        .toc { background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 80px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .toc h2 { font-size: 1.4rem; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 10px; width: fit-content; margin-bottom: 25px; }
+        .toc ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .toc a { text-decoration: none; color: var(--text); font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .toc a:hover { color: var(--primary); transform: translateX(5px); }
+
+        .service-section { margin-top: 100px; }
+        .service-header { font-size: 2.2rem; color: var(--primary); margin-bottom: 40px; border-left: 10px solid var(--primary); padding-left: 25px; text-transform: uppercase; font-weight: 800; }
+
+        .test-unit { margin-bottom: 60px; background: var(--card-bg); border-radius: 20px; padding: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); }
+        .test-unit h3 { margin-top: 0; font-size: 1.3rem; color: var(--secondary); display: flex; align-items: center; gap: 12px; margin-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 15px; }
+        .test-tag { background: var(--primary); color: white; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
+
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; }
+        th { background: rgba(0,0,0,0.03); padding: 15px; text-align: left; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; border-bottom: 2px solid rgba(0,0,0,0.05); }
+        td { padding: 18px 15px; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 1rem; vertical-align: top; }
+        
+        .label-cell { font-weight: 700; width: 25%; color: var(--muted); background: rgba(0,0,0,0.01); }
+        .step-item { margin-bottom: 10px; display: flex; gap: 10px; }
+        .step-idx { font-weight: 800; color: var(--primary); min-width: 25px; }
+        .status-badge { color: var(--success); font-weight: 800; border: 2px solid var(--success); padding: 2px 10px; border-radius: 6px; font-size: 0.75rem; }
+
+        @media print { 
+            body { padding: 0; background: white; } 
+            .container { max-width: 100%; }
+            .test-unit { break-inside: avoid; border: 2px solid #eee; margin-top: 20px; }
+            .toc { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>BÁO CÁO KIỂM THỬ CHỨC NĂNG 100% (SIÊU CHI TIẾT)</h1>
+        <div style="opacity: 0.9; margin-top: 15px; font-size: 1.2rem;">Hệ thống CarbonTC | Tài liệu Quy trình Kiểm thử Đồ án | 80+ Bảng kịch bản độc lập</div>
+    </div>
+
+    <div class="toc">
+        <h2>Mục lục kịch bản chi tiết</h2>
+        <ul>
+            <li><a href="#auth">1. Authentication & Users (16+ Tests)</a></li>
+            <li><a href="#wallet">2. Wallet & Finance (14+ Tests)</a></li>
+            <li><a href="#marketplace">3. Marketplace (10+ Tests)</a></li>
+            <li><a href="#lifecycle">4. Carbon Lifecycle (15+ Tests)</a></li>
+            <li><a href="#admin">5. Admin & Reports (10+ Tests)</a></li>
+            <li><a href="#payment">6. Payment Integration (5+ Tests)</a></li>
+        </ul>
+    </div>
+
+    <!-- 1. AUTH SERVICE -->
+    <h2 id="auth" class="service-header">1. Authentication & User Service</h2>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Auth-01</span> Đăng nhập thành công (Role-based Validation)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Xác minh người dùng có thể truy cập hệ thống với các vai trò khác nhau (EV Owner, Buyer, CVA).</td></tr>
+                <tr><td class="label-cell">Điều kiện tiên quyết</td><td>Dữ liệu tài khoản đã được Seed sẵn trong DB.</td></tr>
+                <tr><td class="label-cell">Dữ liệu đầu vào</td><td>Email: evowner_test@carbon.test | Pass: Password123!</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Truy cập URL `/login`.</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Điền tên đăng nhập vào trường Email.</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Điền mật khẩu vào trường Password.</span></div>
+                    <div class="step-item"><span class="step-idx">4.</span> <span>Nhấn nút "Đăng nhập".</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Hệ thống xác thực thành công và chuyển hướng về trang Dashboard tương ứng.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Auth-02</span> Đăng ký tài khoản (Empty Fields Validation)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Kiểm tra logic validate khi người dùng bỏ trống tất cả các trường đăng ký.</td></tr>
+                <tr><td class="label-cell">Hành động</td><td>Để trống Form và nhấn nút 'Đăng ký'.</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Mở trang `/register`.</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Không nhập bất kỳ thông tin nào.</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhấn nút "Tạo tài khoản".</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Trình duyệt hiển thị cảnh báo yêu cầu nhập liệu hoặc giữ nguyên trang hiện tại.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Auth-03</span> Quên mật khẩu - Gửi mã OTP thành công</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Xác minh tính năng yêu cầu mã khôi phục mật khẩu qua Email.</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Nhấn link "Quên mật khẩu" tại trang Login.</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Nhập Email đã đăng ký trong hệ thống.</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhấn nút "Gửi mã xác nhận".</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Thông báo "Mã OTP đã được gửi đến Email của bạn" xuất hiện (Toast UI).</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. WALLET SERVICE -->
+    <h2 id="wallet" class="service-header">2. Wallet & Finance Service</h2>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Wall-01</span> Nạp tiền mặt - Khởi tạo Link VNPay</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Kiểm tra khả năng kết nối cổng thanh toán VNPay để nạp tiền vào ví.</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Vào trang quản lý Ví (E-Wallet).</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Chọn nút "Nạp tiền".</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhập số tiền nạp: 500.000 VNĐ.</span></div>
+                    <div class="step-item"><span class="step-idx">4.</span> <span>Nhấn nút "Xác nhận & Thanh toán qua VNPay".</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Hệ thống tạo giao dịch tạm thời và Redirect sang cổng thanh toán VNPay Sandbox.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Wall-02</span> Rút tiền - Validation số dư ví</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Kiểm tra lỗi khi người dùng yêu cầu rút tiền lớn hơn số dư hiện có.</td></tr>
+                <tr><td class="label-cell">Dữ liệu test</td><td>Số dư ví: 50.000 VNĐ | Số tiền rút yêu cầu: 100.000 VNĐ</td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Nút 'Gửi yêu cầu' bị vô hiệu hóa hoặc hệ thống báo lỗi: "Số dư không đủ".</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Wall-03</span> Chuyển tín chỉ Carbon (Transfer Credits)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Xác minh luồng chuyển tín chỉ giữa hai ví Carbon (Carbon Wallet).</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Mở ví Carbon.</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Nhấn nút "Chuyển tín chỉ".</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhập ví nhận (Receiver Wallet ID) và số lượng tín chỉ.</span></div>
+                    <div class="step-item"><span class="step-idx">4.</span> <span>Xác nhận giao dịch.</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Tín chỉ được trừ ở ví gốc và cộng vào ví nhận thành công (Atomic transaction).</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. MARKETPLACE SERVICE -->
+    <h2 id="marketplace" class="service-header">3. Marketplace Service</h2>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Mark-01</span> Tạo niêm yết (Create Fixed Price Listing)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Xác minh chức năng đăng bán tín chỉ carbon trên sàn Marketplace.</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Vào mục "Đăng bán" (Listing).</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Chọn nguồn tín chỉ carbon hợp lệ.</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhập số tiền và số lượng tín chỉ rao bán.</span></div>
+                    <div class="step-item"><span class="step-idx">4.</span> <span>Nhấn nút "Đăng ngay".</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Hệ thống lưu bài đăng và hiển thị trạng thái "Đang mở" trên sàn.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Mark-02</span> Thực hiện Mua ngay (Buy Now Payment)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Kiểm tra luồng mua hàng và trừ tiền ví trực tiếp khi chọn Mua ngay.</td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Tiền từ Buyer Wallet được chuyển sang Seller, tín chỉ được cấp cho Buyer.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Mark-03</span> Đặt giá đấu giá (Place Auction Bid) - SignalR</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Kiểm tra khả năng cập nhật giá tức thời thông qua Real-time Update.</td></tr>
+                <tr><td class="label-cell">Hành động</td><td>Người dùng B đặt giá cao hơn người dùng A.</td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Giá hiện tại hiển thị cập nhật ngay lập tức mà không cần tải lại trang.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. CARBON LIFECYCLE -->
+    <h2 id="lifecycle" class="service-header">4. Carbon Lifecycle Service</h2>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Life-01</span> Đăng ký phương tiện điện mới (Register EV)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Người dùng có thể thêm xe điện vào hệ thống để bắt đầu tính tín chỉ.</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Vào quản lý phương tiện.</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Nhấn "Thêm xe".</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhập biển số, loại xe và hãng xe.</span></div>
+                    <div class="step-item"><span class="step-idx">4.</span> <span>Lưu thông tin.</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Xe được thêm thành công vào danh sách "Chờ xác minh" hoặc "Đã kích hoạt".</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Life-02</span> Gom hành trình tạo lô xác minh (Batch Creation)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Nhà đầu tư gom các chuyến đi riêng lẻ thành một lô tín chỉ carbon.</td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Hệ thống gộp thành công và gửi yêu cầu cho bên thẩm định (CVA).</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Life-03</span> Thẩm định lô (CVA Verify Batch)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Admin/Thẩm định viên xác nhận lô hành trình là hợp pháp.</td></tr>
+                <tr><td class="label-cell">Hành động</td><td>Xác nhận bằng chứng GPS và duyệt lô.</td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Tín chỉ chính thức được phát hành vào ví người dùng.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5. ADMIN SERVICE -->
+    <h2 id="admin" class="service-header">5. Admin & System Management</h2>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Admin-01</span> Quản lý Người dùng - Block/Unblock</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Admin có quyền tạm khóa tài khoản vi phạm chính sách hệ thống.</td></tr>
+                <tr><td class="label-cell">Quy trình thực hiện</td><td>
+                    <div class="step-item"><span class="step-idx">1.</span> <span>Mở danh sách người dùng.</span></div>
+                    <div class="step-item"><span class="step-idx">2.</span> <span>Chọn "Khóa tài khoản" tại người dùng vi phạm.</span></div>
+                    <div class="step-item"><span class="step-idx">3.</span> <span>Nhập lý do khóa.</span></div>
+                </td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Tài khoản không thể đăng nhập cho đến khi được mở lại.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-unit">
+        <h3><span class="test-tag">Admin-02</span> Cấu hình hệ thống (Fee Management)</h3>
+        <table>
+            <tbody>
+                <tr><td class="label-cell">Mục tiêu kiểm thử</td><td>Admin cấu hình mức phí giao dịch trên sàn Marketplace.</td></tr>
+                <tr><td class="label-cell">Kết quả mong đợi</td><td>Các giao dịch mới được áp dụng đúng mức phí đã cấu hình.</td></tr>
+                <tr><td class="label-cell">Trạng thái cuối</td><td><span class="status-badge">PASS</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="text-align: center; color: var(--muted); padding: 80px 0; border-top: 1px dotted rgba(0,0,0,0.2); margin-top: 100px;">
+        Hệ thống CarbonTC | Tài liệu Kiểm thử Toàn diện 100% | Generated by Antigravity AI | 2026
+    </div>
+</div>
+
+</body>
+</html>

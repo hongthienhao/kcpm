@@ -1,0 +1,109 @@
+package com.carbontc.walletservice.config;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RabbitMQConfig {
+    // Xử lý giao dịch từ Marketplace
+    public static final String TRANSACTION_QUEUE = "wallet_service_transaction_queue";
+    public static final String TRANSACTION_EXCHANGE = "transaction_exchange";
+    public static final String TRANSACTION_ROUTING_KEY = "transaction_created";
+
+    @Bean
+    TopicExchange transactionExchange() {
+        return new TopicExchange(TRANSACTION_EXCHANGE);
+    }
+
+    @Bean
+    Queue transactionQueue() {
+        return QueueBuilder.durable(TRANSACTION_QUEUE).build();
+    }
+
+    @Bean
+    Binding transactionBinding() {
+        return BindingBuilder.bind(transactionQueue())
+                .to(transactionExchange())
+                .with(TRANSACTION_ROUTING_KEY);
+    }
+
+    // Xử lý Tín chỉ mới từ Carbon Lifecycle
+    public static final String CREDIT_QUEUE = "wallet_service_credit_queue";
+    public static final String CREDIT_EXCHANGE = "carbonlifecycle.events";
+    public static final String CREDIT_ROUTING_KEY = "credit_issued";
+
+    @Bean
+    Queue creditQueue() {
+        return QueueBuilder.durable(CREDIT_QUEUE).build();
+    }
+
+    @Bean
+    TopicExchange creditExchange() {
+        return new TopicExchange(CREDIT_EXCHANGE);
+    }
+
+    @Bean
+    Binding creditBinding() {
+        return BindingBuilder.bind(creditQueue()).
+                to(creditExchange())
+                .with(CREDIT_ROUTING_KEY);
+    }
+
+    public static final String BALANCE_EXCHANGE = "balance_exchange";
+    public static final String BALANCE_UPDATE_QUEUE = "balance.update.command.queue";
+    public static final String BALANCE_UPDATE_ROUTING_KEY = "balance.update.command";
+
+    @Bean
+    public Queue balanceUpdateQueue() {
+        return new Queue(BALANCE_UPDATE_QUEUE);
+    }
+
+    @Bean
+    public TopicExchange balanceExchange() {
+        return new TopicExchange(BALANCE_EXCHANGE);
+    }
+
+    @Bean
+    public Binding balanceUpdateBinding(Queue balanceUpdateQueue, TopicExchange balanceExchange) {
+        return BindingBuilder.bind(balanceUpdateQueue).to(balanceExchange).with(BALANCE_UPDATE_ROUTING_KEY);
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // 2. Thêm module để nó hiểu các kiểu thời gian mới (OffsetDateTime, v.v.)
+        objectMapper.registerModule(new JavaTimeModule());
+
+        // 3. (QUAN TRỌNG) TẮT tính năng ghi ngày tháng thành số timestamp
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        // 4. Trả về converter đã được cấu hình
+        return new Jackson2JsonMessageConverter(objectMapper);
+    }
+
+    public static final String USER_EXCHANGE = "user_exchange";
+    public static final String USER_CREATED_QUEUE = "q.user_created.wallet_service";
+    public static final String USER_CREATED_ROUTING_KEY = "user.created";
+
+    @Bean
+    public TopicExchange userExchange() {
+        return new TopicExchange(USER_EXCHANGE);
+    }
+
+    @Bean
+    public Queue userCreatedWalletQueue() {
+        return new Queue(USER_CREATED_QUEUE);
+    }
+
+    @Bean
+    public Binding userCreatedWalletBinding(Queue userCreatedWalletQueue, TopicExchange userExchange) {
+        return BindingBuilder.bind(userCreatedWalletQueue).to(userExchange).with(USER_CREATED_ROUTING_KEY);
+    }
+}

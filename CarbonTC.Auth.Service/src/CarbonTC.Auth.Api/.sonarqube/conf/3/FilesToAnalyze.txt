@@ -1,0 +1,13 @@
+﻿D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\Controllers\AuthController.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\Controllers\UsersController.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\Filters\JwtAuthorizeAttribute.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\Middleware\ExceptionHandlingMiddleware.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\Program.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\obj\Debug\net9.0\CarbonTC.Auth.Api.GlobalUsings.g.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\obj\Debug\net9.0\.NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\obj\Debug\net9.0\CarbonTC.Auth.Api.AssemblyInfo.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\obj\Debug\net9.0\CarbonTC.Auth.Api.MvcApplicationPartsAssemblyInfo.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\appsettings.Development.json
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\appsettings.json
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\CarbonTC.Auth.Api.http
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\Properties\launchSettings.json

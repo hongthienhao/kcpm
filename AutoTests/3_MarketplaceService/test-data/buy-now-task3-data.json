@@ -1,0 +1,439 @@
+{
+  "meta": {
+    "name": "marketplace-full-test-data",
+    "version": "2.0.0",
+    "description": "Comprehensive data set for full Marketplace testing: Buy, Sell, Auction, Filter, Pagination",
+    "updatedAt": "2026-03-28"
+  },
+  "env": {
+    "baseUrl": "http://localhost:5173",
+    "apiBaseUrl": "http://localhost:7000/api",
+    "buyerEmailEnv": "MARKETPLACE_BUYER_EMAIL",
+    "buyerPasswordEnv": "MARKETPLACE_BUYER_PASSWORD",
+    "sellerEmailEnv": "MARKETPLACE_SELLER_EMAIL",
+    "sellerPasswordEnv": "MARKETPLACE_SELLER_PASSWORD"
+  },
+  "defaults": {
+    "pageSize": 20,
+    "listingType": "1",
+    "listingStatus": "1",
+    "buyQuantity": 1,
+    "walletRetry": {
+      "maxRetry": 5,
+      "delaySeconds": 2
+    }
+  },
+  "enums": {
+    "listingType": {
+      "fixedPrice": "1",
+      "auction": "2"
+    },
+    "listingStatus": {
+      "open": "1",
+      "closed": "2",
+      "cancelled": "3",
+      "sold": "4"
+    },
+    "roles": [
+      "buyer",
+      "seller",
+      "owner",
+      "admin"
+    ]
+  },
+  "seedData": {
+    "users": [
+      {
+        "key": "buyer_primary",
+        "role": "buyer",
+        "walletProfile": "wallet_mid"
+      },
+      {
+        "key": "buyer_low_balance",
+        "role": "buyer",
+        "walletProfile": "wallet_low"
+      },
+      {
+        "key": "seller_a",
+        "role": "seller",
+        "creditSource": "credit_source_a"
+      },
+      {
+        "key": "seller_b",
+        "role": "seller",
+        "creditSource": "credit_source_b"
+      },
+      {
+        "key": "owner_mixed",
+        "role": "owner",
+        "creditSource": "credit_source_c"
+      }
+    ],
+    "walletProfiles": {
+      "wallet_low": {
+        "balance": 50000
+      },
+      "wallet_mid": {
+        "balance": 1000000
+      },
+      "wallet_high": {
+        "balance": 5000000
+      }
+    },
+    "creditSources": {
+      "credit_source_a": {
+        "availableAmount": 120
+      },
+      "credit_source_b": {
+        "availableAmount": 300
+      },
+      "credit_source_c": {
+        "availableAmount": 60
+      }
+    },
+    "listingPool": {
+      "fixedPrice": [
+        { "id": "fp_001", "owner": "seller_a", "status": "1", "quantity": 1, "unitPrice": 20000 },
+        { "id": "fp_002", "owner": "seller_a", "status": "1", "quantity": 2, "unitPrice": 25000 },
+        { "id": "fp_003", "owner": "seller_a", "status": "1", "quantity": 5, "unitPrice": 30000 },
+        { "id": "fp_004", "owner": "seller_a", "status": "1", "quantity": 10, "unitPrice": 35000 },
+        { "id": "fp_005", "owner": "seller_b", "status": "1", "quantity": 1, "unitPrice": 40000 },
+        { "id": "fp_006", "owner": "seller_b", "status": "1", "quantity": 3, "unitPrice": 45000 },
+        { "id": "fp_007", "owner": "seller_b", "status": "1", "quantity": 8, "unitPrice": 50000 },
+        { "id": "fp_008", "owner": "seller_b", "status": "1", "quantity": 12, "unitPrice": 60000 },
+        { "id": "fp_009", "owner": "owner_mixed", "status": "1", "quantity": 1, "unitPrice": 70000 },
+        { "id": "fp_010", "owner": "owner_mixed", "status": "2", "quantity": 4, "unitPrice": 32000 },
+        { "id": "fp_011", "owner": "owner_mixed", "status": "3", "quantity": 6, "unitPrice": 38000 },
+        { "id": "fp_012", "owner": "owner_mixed", "status": "4", "quantity": 2, "unitPrice": 21000 },
+        { "id": "fp_013", "owner": "seller_a", "status": "1", "quantity": 15, "unitPrice": 15000 },
+        { "id": "fp_014", "owner": "seller_a", "status": "1", "quantity": 20, "unitPrice": 18000 },
+        { "id": "fp_015", "owner": "seller_b", "status": "1", "quantity": 30, "unitPrice": 12000 },
+        { "id": "fp_016", "owner": "seller_b", "status": "1", "quantity": 25, "unitPrice": 9000 }
+      ],
+      "auction": [
+        { "id": "au_001", "owner": "seller_a", "status": "1", "quantity": 1, "startPrice": 10000 },
+        { "id": "au_002", "owner": "seller_a", "status": "1", "quantity": 2, "startPrice": 15000 },
+        { "id": "au_003", "owner": "seller_a", "status": "1", "quantity": 4, "startPrice": 20000 },
+        { "id": "au_004", "owner": "seller_b", "status": "1", "quantity": 1, "startPrice": 22000 },
+        { "id": "au_005", "owner": "seller_b", "status": "1", "quantity": 3, "startPrice": 28000 },
+        { "id": "au_006", "owner": "seller_b", "status": "2", "quantity": 2, "startPrice": 18000 },
+        { "id": "au_007", "owner": "owner_mixed", "status": "3", "quantity": 6, "startPrice": 25000 },
+        { "id": "au_008", "owner": "owner_mixed", "status": "4", "quantity": 2, "startPrice": 30000 }
+      ]
+    }
+  },
+  "suites": {
+    "filterMatrix": [
+      {
+        "id": "filter_fixed_open_10k_20k",
+        "filter": { "type": "1", "status": "1", "minPrice": 10000, "maxPrice": 20000 },
+        "expected": { "priceRangeOnly": true, "minResult": 2 }
+      },
+      {
+        "id": "filter_fixed_open_20k_40k",
+        "filter": { "type": "1", "status": "1", "minPrice": 20000, "maxPrice": 40000 },
+        "expected": { "priceRangeOnly": true, "minResult": 4 }
+      },
+      {
+        "id": "filter_fixed_open_40k_80k",
+        "filter": { "type": "1", "status": "1", "minPrice": 40000, "maxPrice": 80000 },
+        "expected": { "priceRangeOnly": true, "minResult": 4 }
+      },
+      {
+        "id": "filter_fixed_by_seller_a",
+        "filter": { "type": "1", "status": "1", "ownerKey": "seller_a" },
+        "expected": { "ownerOnly": true, "minResult": 4 }
+      },
+      {
+        "id": "filter_fixed_by_seller_b",
+        "filter": { "type": "1", "status": "1", "ownerKey": "seller_b" },
+        "expected": { "ownerOnly": true, "minResult": 4 }
+      },
+      {
+        "id": "filter_auction_open",
+        "filter": { "type": "2", "status": "1" },
+        "expected": { "listingTypeOnly": true, "minResult": 4 }
+      },
+      {
+        "id": "filter_empty_result",
+        "filter": { "type": "1", "status": "1", "minPrice": 99999999, "maxPrice": 100000000 },
+        "expected": { "resultEmpty": true }
+      }
+    ],
+    "buyNow": {
+      "task3Cases": [
+        {
+          "id": "task3_search_filter_valid_package",
+          "enabled": true,
+          "listingPrecondition": {
+            "quantity": 2,
+            "unitPrice": 35000,
+            "descriptionPrefix": "Task3 valid listing filter"
+          },
+          "searchFilter": {
+            "type": "1",
+            "status": "1",
+            "minPrice": 30000,
+            "maxPrice": 40000
+          },
+          "expected": {
+            "hasBuyableListing": true,
+            "priceInRange": true
+          }
+        },
+        {
+          "id": "task3_buy_now_success_wallet_deduction",
+          "enabled": true,
+          "listingPrecondition": {
+            "quantity": 1,
+            "priceByWalletRatio": 0.2,
+            "minUnitPrice": 1000,
+            "descriptionPrefix": "Task3 success purchase"
+          },
+          "buyAction": {
+            "quantity": 1,
+            "agreeTerms": true
+          },
+          "expected": {
+            "purchaseSuccess": true,
+            "walletDeductionAtLeastTotal": true
+          }
+        },
+        {
+          "id": "task3_buy_now_error_insufficient_wallet",
+          "enabled": true,
+          "listingPrecondition": {
+            "quantity": 1,
+            "priceOffsetFromWallet": 50000,
+            "minUnitPrice": 200000,
+            "descriptionPrefix": "Task3 insufficient funds"
+          },
+          "buyAction": {
+            "quantity": 1,
+            "agreeTerms": true
+          },
+          "expected": {
+            "purchaseSuccess": false,
+            "errorRegex": "So du khong du|Insufficient funds|Insufficient balance"
+          }
+        },
+        {
+          "id": "task3_buy_now_error_over_stock",
+          "enabled": true,
+          "listingPrecondition": {
+            "quantity": 1,
+            "unitPrice": 25000,
+            "descriptionPrefix": "Task3 stock clamp"
+          },
+          "buyAction": {
+            "inputQuantityFormula": "maxQuantity + 9999"
+          },
+          "expected": {
+            "quantityIsClampedToMax": true
+          }
+        }
+      ],
+      "extraCases": [
+        {
+          "id": "buy_now_quantity_zero",
+          "buyAction": { "quantity": 0, "agreeTerms": true },
+          "expected": { "confirmDisabled": true, "errorKey": "quantityMustBePositive" }
+        },
+        {
+          "id": "buy_now_without_terms",
+          "buyAction": { "quantity": 1, "agreeTerms": false },
+          "expected": { "confirmDisabled": true, "errorKey": "termsRequired" }
+        },
+        {
+          "id": "buy_now_owner_cannot_confirm",
+          "expected": { "confirmButtonVisible": false, "modalType": "owner" }
+        }
+      ]
+    },
+    "sellFlow": {
+      "fixedPriceCases": [
+        {
+          "id": "sell_fixed_valid_small",
+          "quantity": 1,
+          "unitPrice": 20000,
+          "agreeTerms": true,
+          "expected": { "submitSuccess": true }
+        },
+        {
+          "id": "sell_fixed_valid_bulk",
+          "quantity": 20,
+          "unitPrice": 15000,
+          "agreeTerms": true,
+          "expected": { "submitSuccess": true }
+        },
+        {
+          "id": "sell_fixed_invalid_quantity",
+          "quantity": 0,
+          "unitPrice": 15000,
+          "agreeTerms": true,
+          "expected": { "submitSuccess": false }
+        },
+        {
+          "id": "sell_fixed_invalid_price",
+          "quantity": 1,
+          "unitPrice": 0,
+          "agreeTerms": true,
+          "expected": { "submitSuccess": false }
+        }
+      ]
+    },
+    "auctionFlow": {
+      "auctionCases": [
+        {
+          "id": "auction_valid_1h_window",
+          "quantity": 1,
+          "startPrice": 15000,
+          "startOffsetMinutes": 30,
+          "endOffsetMinutes": 90,
+          "expected": { "submitSuccess": true }
+        },
+        {
+          "id": "auction_valid_24h_window",
+          "quantity": 5,
+          "startPrice": 12000,
+          "startOffsetMinutes": 60,
+          "endOffsetMinutes": 1440,
+          "expected": { "submitSuccess": true }
+        },
+        {
+          "id": "auction_invalid_end_before_start",
+          "quantity": 2,
+          "startPrice": 18000,
+          "startOffsetMinutes": 120,
+          "endOffsetMinutes": 60,
+          "expected": { "submitSuccess": false }
+        }
+      ]
+    },
+    "auctionBidFlow": {
+      "precondition": {
+        "quantity": 1,
+        "minimumBid": 20000,
+        "startOffsetMinutes": 10,
+        "endOffsetMinutes": 180,
+        "descriptionPrefix": "Task4 auto auction"
+      },
+      "validBidCases": [
+        {
+          "id": "bid_valid_place_bid_success",
+          "enabled": true,
+          "bidAction": {
+            "mode": "minPlus",
+            "plusAmount": 1000,
+            "agreeTerms": true
+          },
+          "expected": {
+            "bidSuccess": true,
+            "successTextRegex": "Dat gia thanh cong|Đặt giá thành công"
+          }
+        }
+      ],
+      "invalidBidCases": [
+        {
+          "id": "bid_invalid_lower_than_min",
+          "enabled": true,
+          "bidAction": {
+            "mode": "belowMin",
+            "minusAmount": 1,
+            "agreeTerms": true
+          },
+          "expected": {
+            "bidSuccess": false,
+            "errorRegex": "Gia dat phai >=|Giá đặt phải >=|Gia toi thieu|Giá tối thiểu"
+          }
+        }
+      ],
+      "guardCases": [
+        {
+          "id": "bid_owner_cannot_place_bid",
+          "enabled": true,
+          "expected": {
+            "ownerModal": true,
+            "submitButtonVisible": false
+          }
+        },
+        {
+          "id": "bid_without_terms_disabled",
+          "enabled": true,
+          "bidAction": {
+            "mode": "minPlus",
+            "plusAmount": 1000,
+            "agreeTerms": false
+          },
+          "expected": {
+            "submitDisabled": true,
+            "errorRegex": "Vui long dong y|Vui lòng đồng ý"
+          }
+        }
+      ]
+    },
+    "signalRFlow": {
+      "outbidCases": [
+        {
+          "id": "signalr_outbid_realtime_notification",
+          "enabled": true,
+          "requiresSecondBidder": true,
+          "secondBidder": {
+            "emailEnv": "MARKETPLACE_BUYER2_EMAIL",
+            "passwordEnv": "MARKETPLACE_BUYER2_PASSWORD"
+          },
+          "outbidAction": {
+            "mode": "currentPlus",
+            "plusAmount": 2000
+          },
+          "expected": {
+            "outbidToastRegex": "bi tra gia cao hon|bị trả giá cao hơn|outbid",
+            "currentPriceIncreased": true,
+            "minBidAutoUpdated": true
+          }
+        }
+      ]
+    },
+    "ownership": [
+      {
+        "id": "owner_open_own_fixed_listing",
+        "expected": {
+          "modalType": "owner",
+          "confirmButtonVisible": false
+        }
+      },
+      {
+        "id": "buyer_open_other_seller_listing",
+        "expected": {
+          "modalType": "buyer",
+          "confirmButtonVisible": true
+        }
+      }
+    ],
+    "pagination": [
+      {
+        "id": "pagination_page_1",
+        "query": { "pageNumber": 1, "pageSize": 5, "type": "1", "status": "1" },
+        "expected": { "maxResult": 5 }
+      },
+      {
+        "id": "pagination_page_2",
+        "query": { "pageNumber": 2, "pageSize": 5, "type": "1", "status": "1" },
+        "expected": { "maxResult": 5 }
+      },
+      {
+        "id": "pagination_large_page_size",
+        "query": { "pageNumber": 1, "pageSize": 50, "type": "1", "status": "1" },
+        "expected": { "maxResult": 50 }
+      }
+    ]
+  },
+  "assertionRegex": {
+    "quantityMustBePositive": "So luong phai lon hon 0",
+    "termsRequired": "Vui long dong y",
+    "insufficientFunds": "So du khong du|Insufficient funds|Insufficient balance",
+    "bidMin": "Gia dat phai >=|Giá đặt phải >=|Giá tối thiểu",
+    "outbid": "bi tra gia cao hon|bị trả giá cao hơn|outbid",
+    "genericApiError": "Loi:"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "kcpm",
+  "version": "1.0.0",
+  "description": "**CarbonTC** là một dự án nền tảng giao dịch tín chỉ carbon được xây dựng trên kiến trúc Microservices. Mục tiêu của dự án là số hóa (tokenize) lượng khí CO₂ giảm phát thải từ xe điện (EV), quy đổi thành tín chỉ carbon và tạo ra một thị trường (Marketplace) minh bạch cho phép các chủ xe (EV Owners) bán và các doanh nghiệp (Buyers) mua các tín chỉ này.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hongthienhao/kcpm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hongthienhao/kcpm/issues"
+  },
+  "homepage": "https://github.com/hongthienhao/kcpm#readme",
+  "devDependencies": {
+    "codeceptjs": "^3.7.8",
+    "playwright": "^1.59.1"
+  }
+}

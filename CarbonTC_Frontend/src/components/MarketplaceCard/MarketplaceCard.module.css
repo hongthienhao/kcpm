@@ -1,0 +1,248 @@
+.marketplaceCard {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.marketplaceCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.marketplaceCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.marketplaceCard:hover::before {
+  opacity: 0.05;
+}
+
+.marketplaceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.marketplaceType {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.fixedPrice {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+}
+
+.auction {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.priceTrend {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.up {
+  color: #4ade80;
+}
+
+.down {
+  color: #f87171;
+}
+
+.time {
+  color: var(--text-secondary);
+}
+
+.marketplaceTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.marketplaceDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.marketplaceDetailItem {
+  text-align: center;
+}
+
+.marketplaceDetailValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.marketplaceDetailLabel {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.marketplaceFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.marketplaceSeller {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.btnCustom {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnPrimaryCustom {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.btnPrimaryCustom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btnCustom {
+  padding: 8px 12px !important; 
+  border-radius: 6px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+  font-size: 0.85rem; 
+  min-width: auto; 
+}
+
+.btnBuy {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.btnBuy:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+}
+
+/* Nút Đặt giá */
+.btnBid {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.btnBid:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  transform: translateY(-1px);
+}
+
+/* Nút Xem cho chủ sở hữu */
+.btnViewAuction {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white;
+}
+
+.btnViewAuction:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+  transform: translateY(-1px);
+}
+
+/* Nút disabled */
+.btnCustom:disabled {
+  background: #6c757d !important;
+  color: #adb5bd !important;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Badge chủ sở hữu - nhỏ gọn hơn */
+.ownerBadge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2px 6px; /* 🆕 GIẢM padding */
+  border-radius: 10px;
+  font-size: 10px; /* 🆕 GIẢM font size */
+  margin-left: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px; /* 🆕 GIẢM khoảng cách */
+}
+
+/* Marketplace Footer - căn chỉnh lại */
+.marketplaceFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 8px; /* 🆕 THÊM gap để responsive */
+}
+
+.marketplaceSeller {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1; /* 🆕 CHO PHÉP co giãn */
+  min-width: 0; /* 🆕 QUAN TRỌNG: cho phép text truncate */
+}
+
+.marketplaceSeller small {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .btnCustom {
+    padding: 6px 10px !important;
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+  
+  .btnCustom span {
+    display: none; 
+  }
+  
+  .marketplaceSeller small {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .btnCustom {
+    min-width: 90px; 
+  }
+}

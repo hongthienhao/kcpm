@@ -1,0 +1,10 @@
+﻿D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Configuration\RabbitMQSettings.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Extensions\ServiceCollectionExtensions.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Interfaces\IMessageConsumer.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Interfaces\IMessagePublisher.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Model\ApiResponse.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Model\BaseEntity.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Model\PagedResult.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Response\ResultResponse.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Services\RabbitMQConsumer.cs
+D:\kcpm\CarbonTC.SharedLibrary\SharedLibrary\Services\RabbitMQPublisher.cs

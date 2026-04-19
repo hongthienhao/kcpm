@@ -1,0 +1,207 @@
+package com.carbontc.walletservice.service.Impl;
+
+import com.carbontc.walletservice.consumer.RabbitMQConsumerService;
+import com.carbontc.walletservice.dto.request.EWalletRequest;
+import com.carbontc.walletservice.dto.response.EWalletResponse;
+import com.carbontc.walletservice.dto.response.TransactionLogResponse;
+import com.carbontc.walletservice.entity.EWallet;
+import com.carbontc.walletservice.entity.TransactionLog;
+import com.carbontc.walletservice.exception.BusinessException;
+import com.carbontc.walletservice.repository.EWalletRepository;
+import com.carbontc.walletservice.repository.TransactionLogRepository;
+import com.carbontc.walletservice.service.EWalletService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class EWalletServiceImpl implements EWalletService {
+
+    private final EWalletRepository eWalletRepository;
+
+    private final ModelMapper modelMapper;
+
+    private final TransactionLogRepository transactionLogRepository;
+
+    private EWalletResponse createWalletInternal(String userId, String currency) throws BusinessException {
+        if(eWalletRepository.existsByUserId(userId)){
+            throw new BusinessException("Người dùng đã tạo ví rồi");
+        }
+
+        EWallet eWallet = new EWallet();
+        eWallet.setUserId(userId);
+        eWallet.setCurrency(currency);
+        eWallet.setBalance(BigDecimal.ZERO);
+        eWallet.setUpdatedAt(LocalDateTime.now());
+
+        EWallet saved = eWalletRepository.save(eWallet);
+        return mapToResponse(saved);
+    }
+
+    // TẠO VÍ
+    @Override
+    public EWalletResponse createWallet(String userId) throws BusinessException {
+        return createWalletInternal(userId, "VND");
+    }
+
+    // NỘP TIỀN
+    @Override
+    @Transactional(rollbackFor = BusinessException.class)
+    public EWalletResponse deposit(Long walletId, BigDecimal amount) throws BusinessException {
+        EWallet eWallet = eWalletRepository.findById(walletId)
+                .orElseThrow(() -> new BusinessException("Ví không tồn tại"));
+
+        if (amount.compareTo(BigDecimal.valueOf(5000)) < 0) {
+            throw new BusinessException("Số tiền nạp phải lớn hơn 5.000 VND");
+        }
+
+        eWallet.setBalance(eWallet.getBalance().add(amount));
+        eWallet.setUpdatedAt(LocalDateTime.now());
+
+        EWallet eWalletSaved = eWalletRepository.save(eWallet);
+        TransactionLog log = new TransactionLog();
+        log.setWallet(eWalletSaved);
+        log.setAmount(amount);
+        log.setType("DEPOSIT");
+        log.setStatus("SUCCESS");
+        log.setDescription("Nạp tiền thành công vào ví ID: " + walletId);
+        transactionLogRepository.save(log);
+        return mapToResponse(eWalletSaved);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = BusinessException.class)
+    public EWalletResponse withdraw(Long walletId, BigDecimal amount ) throws BusinessException {
+
+        EWallet eWallet = eWalletRepository.findById(walletId)
+                .orElseThrow(() -> new BusinessException("Ví không tồn tại"));
+
+        if (amount.compareTo(BigDecimal.valueOf(10000)) < 0) {
+            throw new BusinessException("Số tiền rút phải lớn hơn 10.000 VND");
+        }
+
+
+        if (eWallet.getBalance().compareTo(amount) < 0) {
+            throw new BusinessException("Số dư không đủ để thực hiện giao dịch. Vui lòng nạp thêm tiền.");
+        }
+
+
+        eWallet.setBalance(eWallet.getBalance().subtract(amount));
+        eWallet.setUpdatedAt(LocalDateTime.now());
+
+        EWallet eWalletSaved = eWalletRepository.save(eWallet);
+
+        TransactionLog log = new TransactionLog();
+        log.setWallet(eWalletSaved);
+        log.setAmount(amount);
+        log.setType("WITHDRAW");
+        log.setStatus("SUCCESS");
+        log.setDescription("Rút tiền thành công khỏi ví ID: " + walletId);
+        transactionLogRepository.save(log);
+
+        return mapToResponse(eWalletSaved);
+    }
+
+    @Override
+    public EWalletResponse getMyWalletByUserId(String userId) throws BusinessException {
+        EWallet eWallet = findWalletByUserId(userId);
+        return mapToResponse(eWallet);
+    }
+
+    @Override
+    public EWallet findWalletByUserId(String userId) throws BusinessException {
+        return eWalletRepository.findByUserId(userId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy ví người dùng"));
+    }
+
+    @Override
+    public List<TransactionLogResponse> getTransactionHistoryByUserId(String userId) throws BusinessException {
+        EWallet eWallet = findWalletByUserId(userId);
+        Long walletId = eWallet.getWalletId();
+
+        // Tìm log từ DB
+        List<TransactionLog> logs = transactionLogRepository.findByWallet_WalletIdOrderByCreatedAtDesc(walletId);
+
+        return logs.stream()
+                .map(log -> {
+                    // 1. Để ModelMapper map các trường giống tên (amount, type, status...)
+                    TransactionLogResponse response = modelMapper.map(log, TransactionLogResponse.class);
+
+                    // 2. THỦ CÔNG map trường walletId
+                    // Lấy object Wallet -> Lấy ID -> Gán vào DTO
+                    if (log.getWallet() != null) {
+                        response.setWalletId(log.getWallet().getWalletId());
+                    }
+
+                    return response;
+                })
+                .toList();
+    }
+
+    @Override
+    @Transactional(rollbackFor = BusinessException.class)
+    public EWalletResponse debit(Long walletId, BigDecimal amount, String description) throws BusinessException {
+
+        EWallet eWallet = eWalletRepository.findById(walletId)
+                .orElseThrow(() -> new BusinessException("Ví không tồn tại"));
+
+        // CHỈ KIỂM TRA SỐ DƯ
+        if (eWallet.getBalance().compareTo(amount) < 0) {
+            throw new BusinessException("Số dư không đủ để thực hiện giao dịch.");
+        }
+
+        eWallet.setBalance(eWallet.getBalance().subtract(amount));
+        eWallet.setUpdatedAt(LocalDateTime.now());
+        EWallet eWalletSaved = eWalletRepository.save(eWallet);
+
+        // Ghi log (dùng description được truyền vào)
+        TransactionLog log = new TransactionLog();
+        log.setWallet(eWalletSaved);
+        log.setAmount(amount);
+        log.setType("DEBIT");
+        log.setStatus("SUCCESS");
+        log.setDescription(description);
+        transactionLogRepository.save(log);
+
+        return mapToResponse(eWalletSaved);
+    }
+
+    /**
+     * HÀM MỚI: Dùng để cộng tiền (cho người bán)
+     */
+    @Override
+    @Transactional(rollbackFor = BusinessException.class)
+    public EWalletResponse credit(Long walletId, BigDecimal amount, String description) throws BusinessException {
+
+        EWallet eWallet = eWalletRepository.findById(walletId)
+                .orElseThrow(() -> new BusinessException("Ví không tồn tại"));
+
+        eWallet.setBalance(eWallet.getBalance().add(amount));
+        eWallet.setUpdatedAt(LocalDateTime.now());
+        EWallet eWalletSaved = eWalletRepository.save(eWallet);
+
+        TransactionLog log = new TransactionLog();
+        log.setWallet(eWalletSaved);
+        log.setAmount(amount);
+        log.setType("CREDIT");
+        log.setStatus("SUCCESS");
+        log.setDescription(description);
+        transactionLogRepository.save(log);
+
+        return mapToResponse(eWalletSaved);
+    }
+
+    // HEPPLER METHOD MAPPER
+    public EWalletResponse mapToResponse(EWallet eWallet) {
+        return modelMapper.map(eWallet, EWalletResponse.class);
+    }
+}

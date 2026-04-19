@@ -1,0 +1,55 @@
+name: E2E Auto Tests (CodeceptJS)
+
+on:
+  push:
+    branches: [ "main", "develop", "master" ]
+  pull_request:
+    branches: [ "main", "develop", "master" ]
+  # Setup lịch chạy tự động hàng đêm (Nightly)
+  schedule:
+    - cron: '0 0 * * *' # Chạy vào lúc 0:00 UTC mỗi ngày (khoảng 7h sáng VN)
+  # Cho phép kích hoạt thủ công từ giao diện Actions
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    name: Playwright Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    # Do project auto test nằm trong thư mục con Admin_AutoTest
+    defaults:
+      run:
+        working-directory: ./AK_AutoTest
+
+    steps:
+      - name: 🚀 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./AK_AutoTest/package-lock.json
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🌐 Install Playwright Browsers
+        run: |
+          npx playwright install --with-deps chromium
+
+      - name: 🧪 Run CodeceptJS Tests
+        env:
+          HEADLESS: "true" # Chạy ở chế độ không giao diện
+          # BASE_URL: ${{ secrets.BASE_URL }} # Bỏ comment nếu muốn lấy URL từ secret
+        run: npx codeceptjs run
+
+      - name: 📊 Upload Test Report
+        if: always() # Luôn chạy bước này ngay cả khi test fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeceptjs-html-report
+          path: ./Admin_AutoTest/output/
+          retention-days: 7

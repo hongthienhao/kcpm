@@ -1,0 +1,31 @@
+{
+  "name": "carbontc-autotests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unified CodeceptJS test suite for CarbonTC - All 5 microservices",
+  "type": "commonjs",
+  "scripts": {
+    "test": "codeceptjs run --steps",
+    "test:headless": "cross-env HEADLESS=true codeceptjs run --steps",
+    "test:auth": "codeceptjs run --steps --grep @auth",
+    "test:wallet": "codeceptjs run --steps --grep @wallet",
+    "test:marketplace": "codeceptjs run --steps --grep @marketplace",
+    "test:lifecycle": "codeceptjs run --steps --grep @lifecycle",
+    "test:admin": "codeceptjs run --steps --grep @admin",
+    "test:1_auth": "codeceptjs run ./1_AuthService/*_test.ts --steps",
+    "test:2_wallet": "codeceptjs run ./2_WalletService/*_test.ts --steps",
+    "test:3_marketplace": "codeceptjs run ./3_MarketplaceService/*_test.ts --steps",
+    "test:4_lifecycle": "codeceptjs run ./4_CarbonLifecycleService/*_test.ts --steps",
+    "test:5_admin": "codeceptjs run ./5_AdminService/*_test.ts --steps"
+  },
+  "devDependencies": {
+    "@codeceptjs/configure": "^1.0.6",
+    "@faker-js/faker": "^9.8.0",
+    "@types/node": "^22.0.0",
+    "codeceptjs": "^3.7.7",
+    "cross-env": "^7.0.3",
+    "playwright": "^1.58.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

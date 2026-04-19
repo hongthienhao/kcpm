@@ -1,0 +1,10 @@
+﻿D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\Program.cs
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\obj\Debug\net8.0\CarbonTC.CarbonLifecycle.Service.GlobalUsings.g.cs
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\obj\Debug\net8.0\CarbonTC.CarbonLifecycle.Service.AssemblyInfo.cs
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\obj\Debug\net8.0\CarbonTC.CarbonLifecycle.Service.MvcApplicationPartsAssemblyInfo.cs
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\appsettings.Development.json
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\appsettings.json
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service.http
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\Properties\launchSettings.json
+D:\kcpm\CarbonTC.CarbonLifecycle.Service\CarbonTC.CarbonLifecycle.Service\obj\Debug\net8.0\apphost.exe

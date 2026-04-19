@@ -1,0 +1,106 @@
+.app {
+  position: relative;
+  overflow: visible;
+}
+
+.mainContent {
+  margin-left: var(--sidebar-width);
+  padding: 30px;
+  min-height: 100vh;
+  background-color: var(--dark-bg);
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
+.mobileToggle {
+  display: none;
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.addButtonContainer {
+  text-align: end;
+  margin-bottom: 25px;
+}
+
+.btnCustom {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btnPrimaryCustom {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.btnPrimaryCustom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.loadingState {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.loadingState i {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.vehiclesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 992px) {
+  .mainContent {
+    margin-left: 0;
+  }
+  
+  .mobileToggle {
+    display: block;
+  }
+  
+  .vehiclesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .mainContent {
+    padding: 20px;
+  }
+  
+  .addButtonContainer {
+    text-align: center;
+  }
+  
+  .vehiclesGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,7 @@
+﻿D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\Common\ApiResponse.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\Common\BaseEntity.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\Entities\RefreshToken.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\Entities\Role.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\Entities\User.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\Enums\UserStatus.cs
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Domain\ValueObjects\Email.cs

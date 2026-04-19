@@ -1,0 +1,1 @@
+D:\kcpm\CarbonTC.Auth.Service\src\CarbonTC.Auth.Api\.sonarqube\out\3

@@ -1,0 +1,24 @@
+{
+  "name": "admin_autotest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "codeceptjs run --steps",
+    "test:headed": "codeceptjs run --steps",
+    "test:headless": "cross-env HEADLESS=true codeceptjs run --steps",
+    "test:user-management": "codeceptjs run tests/admin_user_management_test.ts --steps",
+    "test:withdrawal": "codeceptjs run tests/admin_withdrawal_test.ts --steps",
+    "test:dispute": "codeceptjs run tests/admin_dispute_test.ts --steps",
+    "test:ci": "cross-env HEADLESS=true codeceptjs run --steps --reporter min"
+  },
+  "devDependencies": {
+    "@codeceptjs/configure": "^1.0.6",
+    "@types/node": "^22.0.0",
+    "codeceptjs": "^3.7.7",
+    "cross-env": "^7.0.3",
+    "playwright": "^1.58.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

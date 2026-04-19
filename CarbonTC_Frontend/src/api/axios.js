@@ -1,0 +1,119 @@
+// src/api/axios.js
+
+import axios from 'axios';
+
+const envApiUrl = import.meta.env.VITE_APIGATEWAY_BASE_URL;
+const defaultApiUrl = 'http://localhost:7000/api';
+const baseURL = envApiUrl || defaultApiUrl;
+
+const axiosInstance = axios.create({
+  baseURL: baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 10000,
+});
+
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
+// Request Interceptor
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // ✅ Chỉ redirect login khi refresh-token endpoint fail
+    if (error.response?.status === 401) {
+      // 🚨 FIX: Skip interceptor for login/register to allow components to handle 401 normally
+      if (originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/register')) {
+        return Promise.reject(error);
+      }
+
+      if (originalRequest.url === '/auth/refresh-token') {
+        // Refresh token failed → Logout
+        console.log('❌ Refresh token failed, redirecting to login');
+        localStorage.clear();
+        window.location.href = '/login';
+        return Promise.reject(error);
+      }
+
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+            .then(token => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              return axiosInstance(originalRequest);
+            })
+            .catch(err => Promise.reject(err));
+        }
+
+        isRefreshing = true;
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        if (!refreshToken) {
+          localStorage.clear();
+          window.location.href = '/login';
+          return Promise.reject(error);
+        }
+
+        try {
+          const response = await axiosInstance.post('/auth/refresh-token', { refreshToken });
+
+          if (response.data.success) {
+            const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', newRefreshToken);
+
+            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+
+            processQueue(null, accessToken);
+            return axiosInstance(originalRequest);
+          }
+        } catch (err) {
+          processQueue(err, null);
+          localStorage.clear();
+          window.location.href = '/login';
+          return Promise.reject(err);
+        } finally {
+          isRefreshing = false;
+        }
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;

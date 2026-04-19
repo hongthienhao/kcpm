@@ -1,0 +1,271 @@
+{
+	"id": "67f5e645-2705-4e61-a367-56634b55690d",
+	"name": "CarbonTC Wallet Service - 100% Coverage",
+	"timestamp": "2026-04-19T08:11:00.316Z",
+	"collection_id": "49265176-fa770cd7-dab1-4c3c-b0be-b79685315bba",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 2,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-04-19T08:10:47.449Z",
+	"totalFail": 4,
+	"results": [
+		{
+			"id": "31d28bea-d12b-493f-88f3-698517076838",
+			"name": "Login to get Token",
+			"url": "http://localhost:7000/api/Auth/login",
+			"time": 5810,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Successful": true
+			},
+			"testPassFailCounts": {
+				"Login Successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5810
+			],
+			"allTests": [
+				{
+					"Login Successful": true
+				}
+			]
+		},
+		{
+			"id": "ae03f27a-acaa-4a2b-95cd-a88078ef63de",
+			"name": "Create My Wallet",
+			"url": "http://localhost:7000/api/wallet/my-wallet",
+			"time": 2569,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status code is 200": false,
+				"Wallet created successfully": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Wallet created successfully": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				2569
+			],
+			"allTests": [
+				{
+					"Status code is 200": false,
+					"Wallet created successfully": false
+				}
+			]
+		},
+		{
+			"id": "0c61ddb4-b8b8-4519-a749-3b69cd2a4b78",
+			"name": "Deposit Money (Direct)",
+			"url": "http://localhost:7000/api/wallet//diposit?amout=500000",
+			"time": 205,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Deposit Successful": false
+			},
+			"testPassFailCounts": {
+				"Deposit Successful": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				205
+			],
+			"allTests": [
+				{
+					"Deposit Successful": false
+				}
+			]
+		},
+		{
+			"id": "e2ada429-759f-4b2a-929d-d60169e05b2e",
+			"name": "Get My Wallet Details",
+			"url": "http://localhost:7000/api/wallet/my-wallet",
+			"time": 515,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Retrieved successfully": true
+			},
+			"testPassFailCounts": {
+				"Retrieved successfully": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				515
+			],
+			"allTests": [
+				{
+					"Retrieved successfully": true
+				}
+			]
+		},
+		{
+			"id": "037707da-a4fb-4016-b31d-d3887dfe30a7",
+			"name": "Create Carbon Wallet",
+			"url": "http://localhost:7000/api/carbon-wallet/my-wallet",
+			"time": 113,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				113
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "41202d3a-4c72-4491-88c3-4511fd7726da",
+			"name": "Transfer Carbon Credits",
+			"url": "http://localhost:7000/api/carbon-wallet/transfer",
+			"time": 117,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				117
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "3c5a0c52-825d-4661-9949-e18cd2463ad4",
+			"name": "Create Withdraw Request",
+			"url": "http://localhost:7000/api/withdraw-requests",
+			"time": 363,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Created successfully": false
+			},
+			"testPassFailCounts": {
+				"Created successfully": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				363
+			],
+			"allTests": [
+				{
+					"Created successfully": false
+				}
+			]
+		},
+		{
+			"id": "ee5d8b34-77a5-43e9-914a-734fcdeb50df",
+			"name": "Get Pending Requests",
+			"url": "http://localhost:7000/api/admin-dashboard/pending",
+			"time": 243,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				243
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "131cb6f0-1bc9-45d4-ac06-b023cd2dc33b",
+			"name": "Approve Withdrawal",
+			"url": "http://localhost:7000/api/admin-dashboard//approve",
+			"time": 93,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				93
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 10028,
+	"collection": {
+		"requests": [
+			{
+				"id": "31d28bea-d12b-493f-88f3-698517076838",
+				"method": "POST"
+			},
+			{
+				"id": "ae03f27a-acaa-4a2b-95cd-a88078ef63de",
+				"method": "POST"
+			},
+			{
+				"id": "0c61ddb4-b8b8-4519-a749-3b69cd2a4b78",
+				"method": "POST"
+			},
+			{
+				"id": "e2ada429-759f-4b2a-929d-d60169e05b2e",
+				"method": "GET"
+			},
+			{
+				"id": "037707da-a4fb-4016-b31d-d3887dfe30a7",
+				"method": "POST"
+			},
+			{
+				"id": "41202d3a-4c72-4491-88c3-4511fd7726da",
+				"method": "POST"
+			},
+			{
+				"id": "3c5a0c52-825d-4661-9949-e18cd2463ad4",
+				"method": "POST"
+			},
+			{
+				"id": "ee5d8b34-77a5-43e9-914a-734fcdeb50df",
+				"method": "GET"
+			},
+			{
+				"id": "131cb6f0-1bc9-45d4-ac06-b023cd2dc33b",
+				"method": "POST"
+			}
+		]
+	}
+}

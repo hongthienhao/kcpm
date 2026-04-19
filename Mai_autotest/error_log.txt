@@ -1,0 +1,91 @@
+HTML Reporter: Starting HTML report generation...
+CodeceptJS v3.7.7 #StandWithUkraine
+Using test root "C:\Users\man14\OneDrive\Desktop\kcpm\Mai_autotest"
+
+Verification Flow --
+C:\Users\man14\OneDrive\Desktop\kcpm\Mai_autotest\tests\verification_test.ts
+  Sub-task: Test flow Duyệt (Approve) và kiểm tra tín chỉ được cấp
+  Before()
+    I am on page "/login"
+    I fill field "Email", "cva@gmail.com"
+    I fill field "password", "thienhao"
+    I click "Đăng nhập"
+    I wait for navigation {}
+waitForNavigation deprecated:
+    * This method is inherently racy, please use 'waitForURL' instead.
+    On VerificationDashboardPage: go to page
+      I am on page "/dashboard/verification"
+      I wait for element "//button[contains(., "Chờ duyệt")]", 10
+
+  Scenario()
+    EVOwner: I am on page "/login"
+    EVOwner: I fill field "Email", "hongmai1409205@gmail.com"
+    EVOwner: I fill field "password", "hongmai1409"
+    EVOwner: I click "Đăng nhập"
+    EVOwner: I wait in url "/dashboard", 5
+    EVOwner: I say "EV Owner: Truy cập Hành trình của tôi"
+   EV Owner: Truy cập Hành trình của tôi
+    EVOwner: I am on page "/dashboard/trips"
+    EVOwner: I say "EV Owner: Tạo hành trình mới"
+   EV Owner: Tạo hành trình mới
+    EVOwner: I click "//button[contains(., "Lịch Sử Hành Trình")]"
+    EVOwner: I wait 1
+    EVOwner: I click "//button[contains(., "Tải lên Hành Trình Đơn Lẻ")]"
+    EVOwner: I wait 1
+    EVOwner: I fill field "//input[@type="number"]", "125"
+    EVOwner: I fill field "//input[@placeholder="Vinfast-VFe34"]", "Vinfast-VF8"
+    EVOwner: I fill field "(//input[@type="datetime-local"])[1]", "2026-04-10T08:00"
+    EVOwner: I fill field "(//input[@type="datetime-local"])[2]", "2026-04-10T10:00"
+    EVOwner: I fill field "//label[contains(., "Điểm xuất phát")]/following-sibling::input", "Hà Nội"
+    EVOwner: I fill field "//label[contains(., "Điểm đến")]/following-sibling::input", "Hồ Chí Minh"
+    EVOwner: I click "//button[contains(normalize-space(.), "Tải lên") and not(contains(., "File")) and not(contains(., "Đơn Lẻ"))]"
+    EVOwner: I wait for text "thành công", 5
+  × FAILED in 15550ms
+
+
+-- FAILURES:
+
+  1) Verification Flow
+       Sub-task: Test flow Duyệt (Approve) và kiểm tra tín chỉ được cấp:
+     
+  Text "thành công" was not found on page after 5 sec.
+      at C:\Users\man14\OneDrive\Desktop\kcpm\Mai_autotest\node_modules\codeceptjs\lib\helper\Playwright.js:3086:13
+  
+  
+  ( ) File: file://C:\Users\man14\OneDrive\Desktop\kcpm\Mai_autotest\tests\verification_test.ts
+  
+  ( ) Scenario Steps:
+  × EVOwner: I.waitForText("thành công", 5) at .\tests\verification_test.ts:115:11
+  √ EVOwner: I.click("//button[contains(normalize-space(.), "Tải lên") and not(contains(., "File")) and not(contains(., "Đơn Lẻ"))]") at .\tests\verification_test.ts:114:11
+  √ EVOwner: I.fillField("//label[contains(., "Điểm đến")]/following-sibling::input", "Hồ Chí Minh") at .\tests\verification_test.ts:112:11
+  √ EVOwner: I.fillField("//label[contains(., "Điểm xuất phát")]/following-sibling::input", "Hà Nội") at .\tests\verification_test.ts:111:11
+  √ EVOwner: I.fillField("(//input[@type="datetime-local"])[2]", "2026-04-10T10:00") at .\tests\verification_test.ts:110:11
+  √ EVOwner: I.fillField("(//input[@type="datetime-local"])[1]", "2026-04-10T08:00") at .\tests\verification_test.ts:109:11
+  √ EVOwner: I.fillField("//input[@placeholder="Vinfast-VFe34"]", "Vinfast-VF8") at .\tests\verification_test.ts:108:11
+  √ EVOwner: I.fillField("//input[@type="number"]", "125") at .\tests\verification_test.ts:107:11
+  √ EVOwner: I.wait(1) at .\tests\verification_test.ts:106:11
+  √ EVOwner: I.click("//button[contains(., "Tải lên Hành Trình Đơn Lẻ")]") at .\tests\verification_test.ts:105:11
+  
+  ( ) Artifacts:
+  - screenshot: C:\Users\man14\OneDrive\Desktop\kcpm\Mai_autotest\output\Sub-task__Test_flow_Duyệt_(Approve)_và_kiểm_tra_tín_chỉ_được_cấp.failed.png
+  
+  ( ) Metadata:
+  - browser: chromium
+  - browserVersion: 145.0.7632.6
+  - windowSize: 1280x720
+
+
+  FAIL  | 0 passed, 1 failed   // 21s
+Run with --verbose flag to see complete NodeJS stacktrace
+***************************************
+nodeInfo:  24.13.0
+osInfo:  Windows 11 10.0.26200
+cpuInfo:  (12) x64 13th Gen Intel(R) Core(TM) i5-1334U
+chromeInfo:  146.0.7680.178
+edgeInfo:  Chromium (145.0.3800.82)
+firefoxInfo:  N/A
+safariInfo:  N/A
+playwrightBrowsers:  "chromium: 145.0.7632.6, firefox: 146.0.1, webkit: 26.0"
+If you need more detailed info, just run this: npx codeceptjs info
+***************************************
+HTML Report saved to: C:\Users\man14\OneDrive\Desktop\kcpm\Mai_autotest\output\report.html
